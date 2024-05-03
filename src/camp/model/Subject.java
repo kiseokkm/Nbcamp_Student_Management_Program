@@ -1,5 +1,7 @@
 package camp.model;
 
+import java.util.Objects;
+
 public class Subject {
     // 과목 타입
     public static String SUBJECT_TYPE_MANDATORY = "MANDATORY";
@@ -28,4 +30,14 @@ public class Subject {
         return subjectType;
     }
 
+    public boolean equals(Object o) {
+        if(this == o) {
+            return true;
+        }
+        if(!(o instanceof Subject)) {
+            return false;
+        }
+        Subject subject = (Subject) o;
+        return Objects.equals(this.subjectName, subject.subjectName);
+    }
 }
