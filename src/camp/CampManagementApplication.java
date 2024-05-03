@@ -22,9 +22,6 @@ public class CampManagementApplication {
     private static List<Subject> subjectStore;
     private static List<Score> scoreStore;
 
-    // 과목 타입
-    private static String SUBJECT_TYPE_MANDATORY = "MANDATORY";
-    private static String SUBJECT_TYPE_CHOICE = "CHOICE";
 
     // index 관리 필드
     private static int studentIndex;
@@ -53,47 +50,47 @@ public class CampManagementApplication {
                 new Subject(
                         sequence(INDEX_TYPE_SUBJECT),
                         "Java",
-                        SUBJECT_TYPE_MANDATORY
+                        Subject.SUBJECT_TYPE_MANDATORY
                 ),
                 new Subject(
                         sequence(INDEX_TYPE_SUBJECT),
                         "객체지향",
-                        SUBJECT_TYPE_MANDATORY
+                        Subject.SUBJECT_TYPE_MANDATORY
                 ),
                 new Subject(
                         sequence(INDEX_TYPE_SUBJECT),
                         "Spring",
-                        SUBJECT_TYPE_MANDATORY
+                        Subject.SUBJECT_TYPE_MANDATORY
                 ),
                 new Subject(
                         sequence(INDEX_TYPE_SUBJECT),
                         "JPA",
-                        SUBJECT_TYPE_MANDATORY
+                        Subject.SUBJECT_TYPE_MANDATORY
                 ),
                 new Subject(
                         sequence(INDEX_TYPE_SUBJECT),
                         "MySQL",
-                        SUBJECT_TYPE_MANDATORY
+                        Subject.SUBJECT_TYPE_MANDATORY
                 ),
                 new Subject(
                         sequence(INDEX_TYPE_SUBJECT),
                         "디자인 패턴",
-                        SUBJECT_TYPE_CHOICE
+                        Subject.SUBJECT_TYPE_CHOICE
                 ),
                 new Subject(
                         sequence(INDEX_TYPE_SUBJECT),
                         "Spring Security",
-                        SUBJECT_TYPE_CHOICE
+                        Subject.SUBJECT_TYPE_CHOICE
                 ),
                 new Subject(
                         sequence(INDEX_TYPE_SUBJECT),
                         "Redis",
-                        SUBJECT_TYPE_CHOICE
+                        Subject.SUBJECT_TYPE_CHOICE
                 ),
                 new Subject(
                         sequence(INDEX_TYPE_SUBJECT),
                         "MongoDB",
-                        SUBJECT_TYPE_CHOICE
+                        Subject.SUBJECT_TYPE_CHOICE
                 )
         );
         scoreStore = new ArrayList<>();
