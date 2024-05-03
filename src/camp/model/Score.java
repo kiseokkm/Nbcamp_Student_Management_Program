@@ -16,8 +16,9 @@ public class Score {
         this.scoreId = seq;
     }
 
-    public Score(String seq, String studentId, String subjectId, int score) {
+    public Score(String seq, int testCnt, String studentId, String subjectId, int score) {
         this.scoreId = seq;
+        this.testCnt = testCnt;
         this.studentId = studentId;
         this.subjectId = subjectId;
         this.score = score;
@@ -30,5 +31,17 @@ public class Score {
 
     public int getScore() {
         return score;
+    }
+
+    public String getSubjectId() {
+        return subjectId;
+    }
+
+    public int getTestCnt() {
+        return testCnt;
+    }
+
+    public String getStudentId() {
+        return studentId;
     }
 }
