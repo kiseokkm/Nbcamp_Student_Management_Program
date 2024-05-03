@@ -163,19 +163,22 @@ public class CampManagementApplication {
 
     // 수강생 등록
     private static void createStudent() {
-        System.out.println("\n수강생을 등록합니다...");
-        System.out.print("수강생 이름 입력: ");
-        String studentName = sc.next();
-        // 기능 구현 (필수 과목, 선택 과목)
+//        System.out.println("\n수강생을 등록합니다...");
+//        System.out.print("수강생 이름 입력: ");
+//        String studentName = sc.next();
 
-        Student student = new Student(sequence(INDEX_TYPE_STUDENT), studentName); // 수강생 인스턴스 생성 예시 코드
-        // 기능 구현
+        // 기능 구현 (필수 과목, 선택 과목)
+        StudentManage.createStudent(sc);
+
+//      Student student = new Student(sequence(INDEX_TYPE_STUDENT), studentName); // 수강생 인스턴스 생성 예시 코드
+
         System.out.println("수강생 등록 성공!\n");
     }
 
     // 수강생 목록 조회
     private static void inquireStudent() {
         System.out.println("\n수강생 목록을 조회합니다...");
+        StudentManage.inquiryStudent();
         // 기능 구현
         System.out.println("\n수강생 목록 조회 성공!");
     }
@@ -218,12 +221,12 @@ public class CampManagementApplication {
         // 수강생 목록에서 관리할 수강생 정보를 가져온다.
         Student student = studentStore.get(Integer.parseInt(studentId));
         // 총 수강 목록을 가져와, 해당하는 수강 과목에 점수를 등록한다.
-        for (String subjectId : student.getSubjectList()){
-            System.out.println(studentId+"의 점수를 입력해주세요.");
+        for (Subject subject : student.getSubjectList()){
+            System.out.println(subject.getSubjectId()+"의 점수를 입력해주세요.");
             int score = sc.nextInt();
             // 점수를 등록한다.
             scoreStore.add(
-                    new Score(sequence(INDEX_TYPE_SCORE), studentId, subjectId, score)
+                    new Score(sequence(INDEX_TYPE_SCORE), studentId, subject.getSubjectId(), score)
             );
         }
         System.out.println("\n점수 등록 성공!");
