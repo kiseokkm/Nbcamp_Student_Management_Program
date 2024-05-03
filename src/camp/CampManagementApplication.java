@@ -215,6 +215,17 @@ public class CampManagementApplication {
         String studentId = getStudentId(); // 관리할 수강생 고유 번호
         System.out.println("시험 점수를 등록합니다...");
         // 기능 구현
+        // 수강생 목록에서 관리할 수강생 정보를 가져온다.
+        Student student = studentStore.get(Integer.parseInt(studentId));
+        // 총 수강 목록을 가져와, 해당하는 수강 과목에 점수를 등록한다.
+        for (String subjectId : student.getSubjectList()){
+            System.out.println(studentId+"의 점수를 입력해주세요.");
+            int score = sc.nextInt();
+            // 점수를 등록한다.
+            scoreStore.add(
+                    new Score(sequence(INDEX_TYPE_SCORE), studentId, subjectId, score)
+            );
+        }
         System.out.println("\n점수 등록 성공!");
     }
 

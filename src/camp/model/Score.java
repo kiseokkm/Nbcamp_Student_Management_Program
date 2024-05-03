@@ -9,9 +9,18 @@ public class Score {
     // 회차
     private int testCnt;
     private String scoreId;
+    // 점수
+    private int score;
 
     public Score(String seq) {
         this.scoreId = seq;
+    }
+
+    public Score(String seq, String studentId, String subjectId, int score) {
+        this.scoreId = seq;
+        this.studentId = studentId;
+        this.subjectId = subjectId;
+        this.score = score;
     }
 
     // Getter
@@ -19,4 +28,7 @@ public class Score {
         return scoreId;
     }
 
+    public int getScore() {
+        return score;
+    }
 }
