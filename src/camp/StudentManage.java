@@ -37,4 +37,15 @@ public class StudentManage
         }
     }
 
+    public static Student getStudentByStudentId(String studentId){
+        Student student = stu_list.get(studentId);
+        if (student != null) {
+            return stu_list.get(studentId);
+        }
+        return null;
+    }
+
+    public static boolean containsStudentKey(String studentId){
+        return stu_list.containsKey(studentId);
+    }
 }
