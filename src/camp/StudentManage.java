@@ -18,6 +18,7 @@ public class StudentManage
         String studentName = sc.next();
         // 기능 구현 (필수 과목, 선택 과목)
 
+        sc.nextLine();
         Student student = new Student(INDEX_TYPE_STUDENT + studentIndex++, studentName,
                 SubjectManage.subjectSelect(sc));
 
