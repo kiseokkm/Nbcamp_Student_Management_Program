@@ -40,4 +40,13 @@ public class Subject {
         Subject subject = (Subject) o;
         return Objects.equals(this.subjectName, subject.subjectName);
     }
+
+    /**
+     * 해당하는 과목 ID가 있는지 확인
+     * @param subjectId 확인할 과목 ID
+     * @return 확인 여부
+     */
+    public boolean hasSubjectId(String subjectId){
+        return Objects.equals(this.subjectId, subjectId);
+    }
 }

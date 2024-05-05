@@ -1,13 +1,17 @@
 package camp.model;
 
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class Student {
     private String studentId;
     private String studentName;
-    // 수강 신청 과목 id 저장 리스트
+    // 수강 신청 과목 저장 리스트
     private List<Subject> subjectList;
+    // 점수 저장 리스트
+//    private List<Score> scoreList = new ArrayList<>();
+
+    // 점수 저장 리스트 key: 수강 신청 과목, value: 점수
+    private Map<String, List<Score>> scoreMap = new HashMap<>();
 
     public Student(String seq, String studentName, List<Subject> list) {
         this.studentId = seq;
@@ -26,5 +30,101 @@ public class Student {
 
     public List<Subject> getSubjectList() {
         return subjectList;
+    }
+
+    public Map<String, List<Score>> getScoreMap() {
+        return scoreMap;
+    }
+
+    /**
+     * index로 강의 정보를 찾는다.
+     * @param index 입력 index
+     * @return 해당하는 index의 강의 정보
+     */
+    public Subject getSubjectByIndex(int index) {
+        if (index > subjectList.size()){
+            return null;
+        }
+        return subjectList.get(index-1);
+    }
+
+    /**
+     * 수강생의 점수를 저장한다.
+     * @param score 점수 정보
+     */
+    public void saveScore(Score score){
+        String key = score.getSubject().getSubjectId();
+        List<Score> scores = scoreMap.get(key);
+        if (scores == null){
+            scores = new ArrayList<>();
+        }
+        scores.add(score);
+        scoreMap.put(score.getSubject().getSubjectId(), scores);
+    }
+
+    /**
+     * 수강생의 전체 강의 목록 출력
+     */
+    public void printSubjectList() {
+        System.out.println("========================================");
+        System.out.printf("[수강생 ID: %s]등록된 %s 학생의 과목 정보를 출력합니다.\n", studentId, studentName);
+        int index = 1;
+        for (Subject subject : subjectList) {
+            System.out.printf("%d. %s\n", index++, subject.getSubjectName());
+        }
+    }
+
+    /**
+     * 강의 ID로 수강 과목 정보를 찾는다.
+     * @param subjectId 찾을 과목 아이디
+     * @return 해당하는 ID의 과목 정보
+     */
+    public Subject findSubjectBySubjectId(String subjectId) {
+        for (Subject subject : subjectList) {
+            if (subject.getSubjectId().equals(subjectId)) {
+                return subject;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * 해당하는 과목을 가지고 있는지 확인
+     * @param subjectId 확인할 과목 아이디
+     * @return 있으면 true, 없으면 false
+     */
+    public boolean hasSubject(String subjectId){
+        for (Subject subject : subjectList) {
+            if (subject.hasSubjectId(subjectId)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 해당하는 과목의 점수가 있는지 확인
+     * @param subjectId 과목 아이디
+     * @return 있으면 true 없으면 false
+     */
+    public boolean existsScoreBySubjectId(String subjectId) {
+        return scoreMap.containsKey(subjectId);
+    }
+
+    /**
+     * 해당 과목 점수에 입력한 회차 점수 등록 여부 확인
+     * @param scoreTestCnt 확인할 회차
+     * @return 중복이면 true 아니면 false
+     */
+    public boolean hasScoreTestCnt(String subjectId, int scoreTestCnt){
+        if (!existsScoreBySubjectId(subjectId)){
+            return false;
+        }
+        for (Score score : scoreMap.get(subjectId)) {
+            if (score.hasTestCnt(scoreTestCnt)){
+                return true;
+            }
+        }
+        return false;
     }
 }

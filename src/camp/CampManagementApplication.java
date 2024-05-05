@@ -216,45 +216,57 @@ public class CampManagementApplication {
     }
 
     // 수강생의 과목별 시험 회차 및 점수 등록
-    private static void createScore() {
+    public static void createScore() {
         String studentId = getStudentId(); // 관리할 수강생 고유 번호
         System.out.println("시험 점수를 등록합니다...");
         // 기능 구현
-        // 등록하려는 과목의 회차 점수가 이미 등록되어 있다면 등록할 수 없음
+        // 학생 정보에 관리할 수강생이 없는 경우 등록 불가
         if (!StudentManage.containsStudentKey(studentId)){
             System.out.println("해당하는 학생이 없습니다.");
             return;
         }
         // 수강생 목록에서 관리할 수강생 정보를 가져온다.
         Student student = StudentManage.getStudentByStudentId(studentId);
-        // 총 수강 목록을 가져와, 해당하는 수강 과목에 점수를 등록한다.
-        for (Subject subject : student.getSubjectList()){
-            System.out.println(subject.getSubjectName()+"과목의 점수를 등록하실 회차를 입력해주세요.");
-            int testCnt = sc.nextInt();
-            // 회차에 10 초과 및 1 미만의 수가 저장될 수 없음.
-            while (0 >= testCnt || testCnt > 10){
-                System.out.println("회차는 1미만 10초과의 수가 저장될 수 없습니다.");
-                System.out.println("점수를 등록하실 회차를 다시 입력해주세요.");
-                testCnt = sc.nextInt();
-            }
-            // 등록하려는 과목의 회차 점수가 이미 있으면 안됨.
-            while(containsScoreTestCnt(studentId, subject.getSubjectId(), testCnt)){
-                System.out.println("등록하려는 과목의 회차 점수가 이미 등록되어 있습니다.");
-                System.out.println("점수를 등록하실 회차를 다시 입력해주세요.");
-                testCnt = sc.nextInt();
-            }
-            System.out.println(subject.getSubjectName()+"의 점수를 입력해주세요.");
-            int score = sc.nextInt();
-            while (score > 100 || 0 > score){
-                System.out.println("점수는 100을 초과하거나 음수가 저장될 수 없습니다.");
-                System.out.println("점수를 다시 입력해주세요.");
-                score = sc.nextInt();
-            }
-            // 점수를 등록한다.
-            scoreStore.add(
-                    new Score(sequence(INDEX_TYPE_SCORE), testCnt, studentId, subject.getSubjectId(), score)
-            );
+        // 수강생의 수강 과목 목록 출력
+        student.printSubjectList();
+
+        System.out.println("등록하실 수강 과목의 번호를 입력해주세요.");
+        int inputNumber = sc.nextInt();
+        Subject inputSubject = student.getSubjectByIndex(inputNumber);
+
+        if (inputSubject == null) {
+            System.out.println("해당하는 번호가 없으므로 입력 불가합니다.");
+            return;
         }
+
+        String inputSubjectId = inputSubject.getSubjectId();
+
+        // 회차 등록
+        System.out.println("점수를 등록하실 회차를 입력해주세요.(1~10)");
+        int inputScoreTestCnt = sc.nextInt();
+
+        if (!Score.validationTestCnt(inputScoreTestCnt)) {
+            System.out.println("회차 입력은 1미만 10초과의 수가 저장될 수 없습니다.");
+            return;
+        }
+
+        if (student.hasScoreTestCnt(inputSubjectId, inputScoreTestCnt)){
+            System.out.printf("%s과목에 해당하는 %d회차의 점수가 있으므로 저장할 수 없습니다.\n", inputSubject.getSubjectName(), inputScoreTestCnt);
+            return;
+        }
+
+        // 점수 등록
+        System.out.println("점수를 입력해주세요.(0~100)");
+        int inputScore = sc.nextInt();
+        if (!Score.validationScore(inputScore)) {
+            System.out.println("점수는 100을 초과하거나 음수가 저장될 수 없습니다.");
+            return;
+        }
+
+        // 점수 입력
+        student.saveScore(
+                new Score(sequence(INDEX_TYPE_SCORE), inputScoreTestCnt, studentId, inputSubject, inputScore)
+        );
         System.out.println("\n점수 등록 성공!");
     }
 
@@ -275,18 +287,4 @@ public class CampManagementApplication {
         // 기능 구현
         System.out.println("\n등급 조회 성공!");
     }
-
-    public static boolean containsScoreTestCnt(String studentId, String subjectId, int testCnt){
-        for (Score score : scoreStore){
-            if (Objects.equals(studentId, score.getStudentId())){
-                if (Objects.equals(subjectId, score.getSubjectId())) {
-                    if (score.getTestCnt() == testCnt) {
-                        return true;
-                    }
-                }
-            }
-        }
-        return false;
-    }
-
 }
