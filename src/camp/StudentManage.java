@@ -20,9 +20,9 @@ public class StudentManage
 
         String status = "";
         while(true) {
-            System.out.print("수강생 상태 입력 (Green, Yellow, Red): ");
+            System.out.print("수강생 상태 입력 (green, yellow, red): ");
             status = sc.next();
-            if (status.equalsIgnoreCase("Green") || status.equalsIgnoreCase("Yellow") || status.equalsIgnoreCase("Red")) {
+            if (status.equalsIgnoreCase("green") || status.equalsIgnoreCase("yellow") || status.equalsIgnoreCase("red")) {
                 break;
             }
             System.out.println("잘못된 상태입니다. 다시 입력하세요.");
@@ -53,6 +53,26 @@ public class StudentManage
                 }
             }
             System.out.println("\n");
+        }
+    }
+    public static void inquireSpecificStudent(Scanner sc) {
+        System.out.print("학생의 고유번호를 알려주세요: ");
+        String studentId = sc.next();
+        Student student = getStudentByStudentId(studentId);
+
+        if (student != null) {
+            System.out.println("고유번호: " + student.getStudentId());
+            System.out.println("이름: " + student.getStudentName());
+            System.out.println("상태: " + student.getStatus());
+            System.out.print("선택한 과목명: ");
+            if (student.getSubjectList().isEmpty()) {
+                System.out.println("과목 없음");
+            } else {
+                student.getSubjectList().forEach(subject -> System.out.print(subject.getSubjectName() + " "));
+                System.out.println();
+            }
+        } else {
+            System.out.println("등록된 수강생이 없습니다.");
         }
     }
 

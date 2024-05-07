@@ -4,10 +4,9 @@ import camp.model.Score;
 import camp.model.Student;
 import camp.model.Subject;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Scanner;
+import java.util.*;
+
+import static camp.StudentManage.inquireSpecificStudent;
 
 /**
  * Notification
@@ -147,18 +146,22 @@ public class CampManagementApplication {
             System.out.println("수강생 관리 실행 중...");
             System.out.println("1. 수강생 등록");
             System.out.println("2. 수강생 목록 조회");
-            System.out.println("3. 메인 화면 이동");
+            System.out.println("3. 수강생 정보(개인) 조회");
+            System.out.println("4. 메인 화면 이동");
             System.out.print("관리 항목을 선택하세요...");
-            int input = sc.nextInt();
+            try {
+                int input = sc.nextInt();
 
-            switch (input) {
-                case 1 -> createStudent(); // 수강생 등록
-                case 2 -> inquireStudent(); // 수강생 목록 조회
-                case 3 -> flag = false; // 메인 화면 이동
-                default -> {
-                    System.out.println("잘못된 입력입니다.\n메인 화면 이동...");
-                    flag = false;
+                switch (input) {
+                    case 1 -> createStudent(); // 수강생 등록
+                    case 2 -> inquireStudent(); // 수강생 목록 조회
+                    case 3 -> inquireSpecificStudent(); // 수강생 정보(개인) 조회
+                    case 4 -> flag = false; // 메인 화면 이동
+                    default -> System.out.println("잘못된 입력입니다. 다시 선택해주세요.");
                 }
+            } catch (InputMismatchException e) {
+                System.out.println("잘못된 입력입니다. 숫자를 입력해주세요.");
+                sc.next();
             }
         }
     }
@@ -168,7 +171,6 @@ public class CampManagementApplication {
 //        System.out.println("\n수강생을 등록합니다...");
 //        System.out.print("수강생 이름 입력: ");
 //        String studentName = sc.next();
-
         // 기능 구현 (필수 과목, 선택 과목)
         StudentManage.createStudent(sc);
 
@@ -176,13 +178,17 @@ public class CampManagementApplication {
 
         System.out.println("수강생 등록 성공!\n");
     }
-
     // 수강생 목록 조회
     private static void inquireStudent() {
         System.out.println("\n수강생 목록을 조회합니다...");
         StudentManage.inquiryStudent();
         // 기능 구현
         System.out.println("\n수강생 목록 조회 성공!");
+    }
+    private static void inquireSpecificStudent() {
+        System.out.println("\n수강생 정보 조회를 시작합니다...");
+        StudentManage.inquireSpecificStudent(sc);
+        System.out.println("\n수강생 정보 조회를 완료했습니다.");
     }
 
     private static void displayScoreView() {
