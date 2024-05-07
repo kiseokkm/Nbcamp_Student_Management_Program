@@ -339,7 +339,7 @@ public class CampManagementApplication {
         System.out.println(student.getStudentName() + " 학생의 [" + student.findSubjectBySubjectId(subjectId).getSubjectName() +"] 과목의 회차별 등급");
         for (Score score : scores) {
             if (score.getTestCnt() == selectedTestCnt && subjectType!= null) {
-                System.out.println(score.getTestCnt() + " 회차 => 등급: " + score.calculationGrade(subjectType,score.getScore()));
+                System.out.println(score.getTestCnt() + " 회차 => 등급: " + score.getGrade());
                 return;
             } else {
                 System.out.println("해당 회차에 대한 점수는 등록되어있지 않습니다");
