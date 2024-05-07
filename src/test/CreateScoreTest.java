@@ -61,14 +61,9 @@ public class CreateScoreTest {
                 new Subject("SU06", SubjectList.JAVA.name, SubjectList.JAVA.type)
         );
 
-<<<<<<< HEAD
         // 학생 추가
         StudentManage.stu_list.put("ST01", new Student("ST01", "name1", subjectList));
         StudentManage.stu_list.put("ST02", new Student("ST02", "name2", subjectList));
-=======
-        // 학생 추가 ( 상태추가 )
-        StudentManage.stu_list.put("ST01", new Student("ST01", "name1", subjectList, "Green"));
->>>>>>> f8cbaa2f5cfb29ccccbaf172d583bf831af740f5
     }
 
     public static void initScoreData(Student student){
