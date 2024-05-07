@@ -131,7 +131,21 @@ public class Student {
         }
         return false;
     }
-    public void setStatus(String status) {
-        this.status = status;
+
+    // 과목별 평균 등급 조회
+    public void inquiryAverageGradeBySubject(){
+        // 수강 신청 과목 리스트
+        for (Subject subject : subjectList){
+            String key = subject.getSubjectId();
+            List<Score> scores = scoreMap.get(key);
+            if (scores != null) {
+                double sum = scores.stream()
+                        .mapToInt(Score::getScore)
+                        .sum();
+                // TODO 평균등급 구하는 메서드 추가 시 추가 예정
+                System.out.printf("%s의 과목의 평균 점수는 %f이고, 평균 등급은 입니다.\n",
+                        subject.getSubjectName(), sum / scores.size());
+            }
+        }
     }
 }
