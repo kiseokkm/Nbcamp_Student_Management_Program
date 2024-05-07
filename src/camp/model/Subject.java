@@ -1,5 +1,7 @@
 package camp.model;
 
+import camp.SubjectList;
+
 import java.util.Objects;
 
 public class Subject {
@@ -48,5 +50,15 @@ public class Subject {
      */
     public boolean hasSubjectId(String subjectId){
         return Objects.equals(this.subjectId, subjectId);
+    }
+
+    // 과목 Name 의 Type 을 반환
+    public static String subjectNameToType(String subjectName) {
+        for (SubjectList subject : SubjectList.values()) {
+            if (subject.name.equals(subjectName)) {
+                return subject.type;
+            }
+        }
+        return null;
     }
 }

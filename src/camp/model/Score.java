@@ -69,4 +69,39 @@ public class Score {
     }
 
     // TODO 등급 계산
+    public String calculationGrade(String subjectType, int score) {
+        switch (subjectType) {
+            case "MANDATORY":
+                if (score >= 95) {
+                    grade = "A";
+                } else if (score >= 90) {
+                    grade = "B";
+                } else if (score >= 80) {
+                    grade = "C";
+                } else if (score >= 70) {
+                    grade = "D";
+                } else if (score >= 60) {
+                    grade = "F";
+                } else {
+                    grade = "N";
+                }
+                break;
+            case "CHOICE":
+                if (score >= 90) {
+                    grade = "A";
+                } else if (score >= 80) {
+                    grade = "B";
+                } else if (score >= 70) {
+                    grade = "C";
+                } else if (score >= 60) {
+                    grade = "D";
+                } else if (score >= 50) {
+                    grade = "F";
+                } else {
+                    grade = "N";
+                }
+                break;
+        }
+        return grade;
+    }
 }
