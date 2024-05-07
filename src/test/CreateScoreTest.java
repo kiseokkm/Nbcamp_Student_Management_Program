@@ -50,8 +50,8 @@ public class CreateScoreTest {
                 new Subject("SU06", SubjectList.JAVA.name, Subject.SUBJECT_TYPE_CHOICE)
         );
 
-        // 학생 추가
-        StudentManage.stu_list.put("ST01", new Student("ST01", "name1", subjectList));
+        // 학생 추가 ( 상태추가 )
+        StudentManage.stu_list.put("ST01", new Student("ST01", "name1", subjectList, "Green"));
     }
 
     public static void initScoreData(Student student){

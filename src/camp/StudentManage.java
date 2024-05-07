@@ -8,7 +8,7 @@ import java.util.*;
 public class StudentManage
 {
     public  static Map<String, Student> stu_list = new HashMap<>();
-    private static int studentIndex;
+    private static int studentIndex = 0 ;
     private static final String INDEX_TYPE_STUDENT = "ST";
 
     // 이곳에서 수강생 등록 수행
@@ -18,23 +18,41 @@ public class StudentManage
         String studentName = sc.next();
         // 기능 구현 (필수 과목, 선택 과목)
 
+        String status = "";
+        while(true) {
+            System.out.print("수강생 상태 입력 (Green, Yellow, Red): ");
+            status = sc.next();
+            if (status.equalsIgnoreCase("Green") || status.equalsIgnoreCase("Yellow") || status.equalsIgnoreCase("Red")) {
+                break;
+            }
+            System.out.println("잘못된 상태입니다. 다시 입력하세요.");
+        }
+        status = status.toUpperCase();
+
         sc.nextLine();
         Student student = new Student(INDEX_TYPE_STUDENT + studentIndex++, studentName,
-                SubjectManage.subjectSelect(sc));
+                SubjectManage.subjectSelect(sc), status);
 
-        stu_list.put(student.getStudentId(),student);
+        stu_list.put(student.getStudentId(), student);
     }
 
-    // 임시 테스트용
-    public static void inquiryStudent(){
-        for(Student e : stu_list.values()) {
-            System.out.println("ID: " + e.getStudentId() + " 이름: " + e.getStudentName());
-            System.out.println("수강중인 과목들:");
-            for(Subject f : e.getSubjectList())
-            {
-                System.out.printf("과목명: " + f.getSubjectName() + " ");
+    // 목록 조회에 상태도 추가 함 + 등록된 수강생 없으면 없다 .
+    public static void inquiryStudent() {
+        if (stu_list.isEmpty()) {
+            System.out.println("등록된 수강생이 없습니다.");
+            return;
+        }
+        for (Student student : stu_list.values()) {
+            System.out.println("ID: " + student.getStudentId() + ", 이름: " + student.getStudentName() + ", 상태: " + student.getStatus());
+            System.out.print("수강중인 과목들: ");
+            if (student.getSubjectList().isEmpty()) {
+                System.out.print("과목 없음");
+            } else {
+                for (Subject subject : student.getSubjectList()) {
+                    System.out.print(subject.getSubjectName() + " ");
+                }
             }
-            System.out.println();
+            System.out.println("\n");
         }
     }
 
