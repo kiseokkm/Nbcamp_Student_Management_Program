@@ -4,10 +4,9 @@ import camp.model.Score;
 import camp.model.Student;
 import camp.model.Subject;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Scanner;
+import java.util.*;
+
+import static camp.StudentManage.inquireSpecificStudent;
 
 /**
  * Notification
@@ -147,25 +146,25 @@ public class CampManagementApplication {
             System.out.println("수강생 관리 실행 중...");
             System.out.println("1. 수강생 등록");
             System.out.println("2. 수강생 목록 조회");
-            System.out.println("3. 수강생 정보 수정");
-            System.out.println("4. 수강생 정보 삭제");
-            System.out.println("5. 메인 화면 이동");
-
-
+            System.out.println("3. 수강생 정보(개인) 조회");
+            System.out.println("4. 수강생 정보 수정");
+            System.out.println("5. 수강생 정보 삭제");
+            System.out.println("6. 메인 화면 이동");
             System.out.print("관리 항목을 선택하세요...");
             int input = sc.nextInt();
-
-            switch (input) {
-                case 1 -> createStudent(); // 수강생 등록
-                case 2 -> inquireStudent(); // 수강생 목록 조회
-                case 3 -> modifyStudent();
-                case 4 -> removeStudent();
-                case 5 -> flag = false; // 메인 화면 이동
-
-                default -> {
-                    System.out.println("잘못된 입력입니다.\n메인 화면 이동...");
-                    flag = false;
+          
+                switch (input) {
+                    case 1 -> createStudent(); // 수강생 등록
+                    case 2 -> inquireStudent(); // 수강생 목록 조회
+                    case 3 -> inquireSpecificStudent(); // 수강생 정보(개인) 조회
+                    case 4 -> modifyStudent();
+                    case 5 -> removeStudent();
+                    case 6 -> flag = false; // 메인 화면 이동
+                    default -> System.out.println("잘못된 입력입니다. 다시 선택해주세요.");
                 }
+            } catch (InputMismatchException e) {
+                System.out.println("잘못된 입력입니다. 숫자를 입력해주세요.");
+                sc.next();
             }
         }
     }
@@ -175,7 +174,6 @@ public class CampManagementApplication {
 //        System.out.println("\n수강생을 등록합니다...");
 //        System.out.print("수강생 이름 입력: ");
 //        String studentName = sc.next();
-
         // 기능 구현 (필수 과목, 선택 과목)
         StudentManage.createStudent(sc);
 
@@ -183,13 +181,17 @@ public class CampManagementApplication {
 
         System.out.println("수강생 등록 성공!\n");
     }
-
     // 수강생 목록 조회
     private static void inquireStudent() {
         System.out.println("\n수강생 목록을 조회합니다...");
         StudentManage.inquiryStudent();
         // 기능 구현
         System.out.println("\n수강생 목록 조회 성공!");
+    }
+    private static void inquireSpecificStudent() {
+        System.out.println("\n수강생 정보 조회를 시작합니다...");
+        StudentManage.inquireSpecificStudent(sc);
+        System.out.println("\n수강생 정보 조회를 완료했습니다.");
     }
 
     private static void modifyStudent() {
@@ -212,7 +214,9 @@ public class CampManagementApplication {
             System.out.println("1. 수강생의 과목별 시험 회차 및 점수 등록");
             System.out.println("2. 수강생의 과목별 회차 점수 수정");
             System.out.println("3. 수강생의 특정 과목 회차별 등급 조회");
-            System.out.println("4. 메인 화면 이동");
+            System.out.println("4. 수강생의 과목별 평균 등급 조회");
+            System.out.println("5. 특정 상태 수강생들의 필수 과목 평균 등급 조회");
+            System.out.println("6. 메인 화면 이동");
             System.out.print("관리 항목을 선택하세요...");
             int input = sc.nextInt();
 
@@ -220,7 +224,9 @@ public class CampManagementApplication {
                 case 1 -> createScore(); // 수강생의 과목별 시험 회차 및 점수 등록
                 case 2 -> updateRoundScoreBySubject(); // 수강생의 과목별 회차 점수 수정
                 case 3 -> inquireRoundGradeBySubject(); // 수강생의 특정 과목 회차별 등급 조회
-                case 4 -> flag = false; // 메인 화면 이동
+                case 4 -> inquiryAverageGradeBySubject(); // 메인 화면 이동
+                case 5 -> flag = false; // 메인 화면 이동
+                case 6 -> flag = false; // 메인 화면 이동
                 default -> {
                     System.out.println("잘못된 입력입니다.\n메인 화면 이동...");
                     flag = false;
@@ -301,9 +307,47 @@ public class CampManagementApplication {
     // 수강생의 특정 과목 회차별 등급 조회
     private static void inquireRoundGradeBySubject() {
         String studentId = getStudentId(); // 관리할 수강생 고유 번호
-        // 기능 구현 (조회할 특정 과목)
-        System.out.println("회차별 등급을 조회합니다...");
-        // 기능 구현
-        System.out.println("\n등급 조회 성공!");
+        // 입력한 학생이 존재하지 않을 경우 종료
+        Student student = StudentManage.getStudentByStudentId(studentId);
+        if (student == null) {
+            System.out.println("해당 학생은 등록되어 있지 않거나 등급(점수)가 등록되어 있지 않습니다\n다시 시도해주세요");
+            return;
+        }
+
+        // 해당 학생이 가지고 있는 과목 출력
+        student.printSubjectList();
+
+        System.out.println("조회할 과목을 입력하세요(ex: Java, 객체지향, Spring ...): ");
+        String subjectName = sc.next();
+        System.out.println("조회할 회차를 입력하세요: ");
+        int selectedTestCnt = sc.nextInt();
+
+        // 입력받은 과목 Name 으로 과목 ID 반환
+        String subjectId = Student.findSubjectIdBySubjectName(student, subjectName);
+        if (subjectId == null) {
+            System.out.println("해당 과목은 수강생의 과목 목록에 없습니다.");
+            return;
+        }
+
+        // 특정 과목의 회차별 등급 조회 구현
+        List<Score> scores = student.getScoresBySubjectId(subjectId);
+        System.out.println(student.getStudentName() + " 학생의 [" + student.findSubjectBySubjectId(subjectId).getSubjectName() +"] 과목의 회차별 등급");
+        for (Score score : scores) {
+            if (score.getTestCnt() == selectedTestCnt) {
+                System.out.println(score.getTestCnt() + " 회차 => 등급: " + score.getScore());
+                return;
+            } else {
+                System.out.println("해당 회차에 대한 점수는 등록되어있지 않습니다");
+            }
+        }
+    }
+
+    // 수강생의 과목별 평균 등급 조회
+    public static void inquiryAverageGradeBySubject() {
+        String studentId = getStudentId(); // 관리할 수강생 고유 번호
+        System.out.println("수강생의 과목별 평균 등급을 조회합니다...");
+        Student student = StudentManage.getStudentByStudentId(studentId);
+        student.inquiryAverageGradeBySubject();
+        System.out.println("\n평균 등급 조회 성공!");
     }
 }
