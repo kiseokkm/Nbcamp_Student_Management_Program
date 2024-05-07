@@ -1,5 +1,7 @@
 package camp.model;
 
+import javax.naming.Name;
+import java.beans.JavaBean;
 import java.util.*;
 
 public class Student {
@@ -17,6 +19,16 @@ public class Student {
         this.studentName = studentName;
         this.subjectList = list;
         this.status = status;
+    }
+
+    public Integer getMyAverageScore() {
+        List<Subject> subjects = List.of();
+
+        Map<String, List<Score>> subjectScoreList = Map.of();
+
+        for(Subject subject : subjects) {
+
+        }
     }
 
     // Getter

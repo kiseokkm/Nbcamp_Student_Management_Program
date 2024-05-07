@@ -165,16 +165,26 @@ public class CampManagementApplication {
                 }
             } catch(InputMismatchException e) {
                 System.out.println("잘못된 입력입니다. 숫자를 입력해주세요.");
-                sc.next(); 
+                sc.next();
             }
         }
-    }
-    
+            String input2 = sc.next();
+
+            switch (input2) {
+                case Green: -> "수강생 이름, 필수과목 평균등급"
+                case Red:
+                case Yellow
+                default -> {
+                    System.out.println("잘못된 입력입니다.\n메인 화면 이동...");
+                }
+            }
+        }
+
     // 수강생 등록
     private static void createStudent(Scanner sc) {
         // 기능 구현 (필수 과목, 선택 과목)
         StudentManage.createStudent(CampManagementApplication.sc);
-        
+
         System.out.println("수강생 등록 성공!\n");
     }
     // 수강생 목록 조회
