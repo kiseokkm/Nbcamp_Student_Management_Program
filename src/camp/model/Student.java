@@ -132,6 +132,23 @@ public class Student {
         return false;
     }
 
+    // 과목 이름을 받아서 과목 고유 ID로 바꾸기
+    public static String findSubjectIdBySubjectName(Student student, String subjectName) {
+        List<Subject> subjectList = student.getSubjectList();
+        for (Subject subject : subjectList) {
+            if (subject.getSubjectName().equals(subjectName)) {
+                return subject.getSubjectId();
+            }
+        }
+        return null;
+    }
+
+    // scoreMap 에 저장된 과목 아이디에 해당하는 점수 리스트 반환
+    public List<Score> getScoresBySubjectId(String subjectId) {
+        return scoreMap.get(subjectId);
+    }
+
+
     // 과목별 평균 등급 조회
     public void inquiryAverageGradeBySubject(){
         // 수강 신청 과목 리스트

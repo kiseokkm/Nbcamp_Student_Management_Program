@@ -286,10 +286,39 @@ public class CampManagementApplication {
     // 수강생의 특정 과목 회차별 등급 조회
     private static void inquireRoundGradeBySubject() {
         String studentId = getStudentId(); // 관리할 수강생 고유 번호
-        // 기능 구현 (조회할 특정 과목)
-        System.out.println("회차별 등급을 조회합니다...");
-        // 기능 구현
-        System.out.println("\n등급 조회 성공!");
+        // 입력한 학생이 존재하지 않을 경우 종료
+        Student student = StudentManage.getStudentByStudentId(studentId);
+        if (student == null) {
+            System.out.println("해당 학생은 등록되어 있지 않거나 등급(점수)가 등록되어 있지 않습니다\n다시 시도해주세요");
+            return;
+        }
+
+        // 해당 학생이 가지고 있는 과목 출력
+        student.printSubjectList();
+
+        System.out.println("조회할 과목을 입력하세요(ex: Java, 객체지향, Spring ...): ");
+        String subjectName = sc.next();
+        System.out.println("조회할 회차를 입력하세요: ");
+        int selectedTestCnt = sc.nextInt();
+
+        // 입력받은 과목 Name 으로 과목 ID 반환
+        String subjectId = Student.findSubjectIdBySubjectName(student, subjectName);
+        if (subjectId == null) {
+            System.out.println("해당 과목은 수강생의 과목 목록에 없습니다.");
+            return;
+        }
+
+        // 특정 과목의 회차별 등급 조회 구현
+        List<Score> scores = student.getScoresBySubjectId(subjectId);
+        System.out.println(student.getStudentName() + " 학생의 [" + student.findSubjectBySubjectId(subjectId).getSubjectName() +"] 과목의 회차별 등급");
+        for (Score score : scores) {
+            if (score.getTestCnt() == selectedTestCnt) {
+                System.out.println(score.getTestCnt() + " 회차 => 등급: " + score.getScore());
+                return;
+            } else {
+                System.out.println("해당 회차에 대한 점수는 등록되어있지 않습니다");
+            }
+        }
     }
 
     // 수강생의 과목별 평균 등급 조회
