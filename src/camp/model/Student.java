@@ -12,11 +12,13 @@ public class Student {
 
     // 점수 저장 리스트 key: 수강 신청 과목, value: 점수
     private Map<String, List<Score>> scoreMap = new HashMap<>();
+    private String status;
 
-    public Student(String seq, String studentName, List<Subject> list) {
+    public Student(String seq, String studentName, List<Subject> list, String status) {
         this.studentId = seq;
         this.studentName = studentName;
         this.subjectList = list;
+        this.status = status;
     }
 
     // Getter
@@ -35,6 +37,8 @@ public class Student {
     public Map<String, List<Score>> getScoreMap() {
         return scoreMap;
     }
+
+    public String getStatus() {return status; }
 
     /**
      * index로 강의 정보를 찾는다.
@@ -126,5 +130,8 @@ public class Student {
             }
         }
         return false;
+    }
+    public void setStatus(String status) {
+        this.status = status;
     }
 }
