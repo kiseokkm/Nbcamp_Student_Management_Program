@@ -169,4 +169,8 @@ public class Student {
     public void setStudentName(String name) {
         this.studentName = name;
     }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 }

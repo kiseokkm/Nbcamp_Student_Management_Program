@@ -6,8 +6,6 @@ import camp.model.Subject;
 
 import java.util.*;
 
-import static camp.StudentManage.inquireSpecificStudent;
-
 /**
  * Notification
  * Java, 객체지향이 아직 익숙하지 않은 분들은 위한 소스코드 틀입니다.
@@ -141,41 +139,45 @@ public class CampManagementApplication {
 
     private static void displayStudentView() {
         boolean flag = true;
+        Scanner sc = new Scanner(System.in); //
+
         while (flag) {
-            System.out.println("==================================");
-            System.out.println("수강생 관리 실행 중...");
-            System.out.println("1. 수강생 등록");
-            System.out.println("2. 수강생 목록 조회");
-            System.out.println("3. 수강생 정보(개인) 조회");
-            System.out.println("4. 수강생 정보 수정");
-            System.out.println("5. 수강생 정보 삭제");
-            System.out.println("6. 메인 화면 이동");
-            System.out.print("관리 항목을 선택하세요...");
-            int input = sc.nextInt();
-          
+            try {
+                System.out.println("==================================");
+                System.out.println("수강생 관리 실행 중...");
+                System.out.println("1. 수강생 등록");
+                System.out.println("2. 수강생 목록 조회");
+                System.out.println("3. 수강생 정보(개인) 조회");
+                System.out.println("4. 수강생 정보 수정");
+                System.out.println("5. 수강생 정보 삭제");
+                System.out.println("6. 메인 화면 이동");
+                System.out.print("관리 항목을 선택하세요...");
+                int input = sc.nextInt();
+
                 switch (input) {
-                    case 1 -> createStudent(); // 수강생 등록
+                    case 1 -> createStudent(sc); // 수강생 등록
                     case 2 -> inquireStudent(); // 수강생 목록 조회
-                    case 3 -> inquireSpecificStudent(); // 수강생 정보(개인) 조회
-                    case 4 -> modifyStudent();
-                    case 5 -> removeStudent();
+                    case 3 -> inquireSpecificStudent(sc); // 수강생 정보(개인) 조회
+                    case 4 -> modifyStudent(sc);
+                    case 5 -> removeStudent(sc);
                     case 6 -> flag = false; // 메인 화면 이동
                     default -> System.out.println("잘못된 입력입니다. 다시 선택해주세요.");
                 }
-            } catch (InputMismatchException e) {
+            } catch(InputMismatchException e) {
                 System.out.println("잘못된 입력입니다. 숫자를 입력해주세요.");
-                sc.next();
+                sc.next(); // 잘못된 입력을 넘기고 다음 입력을 기다립니다.
             }
         }
     }
 
+
     // 수강생 등록
-    private static void createStudent() {
+    private static void createStudent(Scanner sc) {
 //        System.out.println("\n수강생을 등록합니다...");
 //        System.out.print("수강생 이름 입력: ");
 //        String studentName = sc.next();
         // 기능 구현 (필수 과목, 선택 과목)
-        StudentManage.createStudent(sc);
+        StudentManage.createStudent(CampManagementApplication.sc);
 
 //      Student student = new Student(sequence(INDEX_TYPE_STUDENT), studentName); // 수강생 인스턴스 생성 예시 코드
 
@@ -188,21 +190,21 @@ public class CampManagementApplication {
         // 기능 구현
         System.out.println("\n수강생 목록 조회 성공!");
     }
-    private static void inquireSpecificStudent() {
+    private static void inquireSpecificStudent(Scanner sc) {
         System.out.println("\n수강생 정보 조회를 시작합니다...");
-        StudentManage.inquireSpecificStudent(sc);
+        StudentManage.inquireSpecificStudent(CampManagementApplication.sc);
         System.out.println("\n수강생 정보 조회를 완료했습니다.");
     }
 
-    private static void modifyStudent() {
+    private static void modifyStudent(Scanner sc) {
         System.out.println("\n수강생 정보를 수정합니다...");
-        StudentManage.modifyStudent(sc);
+        StudentManage.modifyStudent(CampManagementApplication.sc);
         System.out.println("\n수강생 정보 수정 종료!");
     }
 
-    private static void removeStudent() {
+    private static void removeStudent(Scanner sc) {
         System.out.println("\n수강생 정보를 삭제합니다...");
-        StudentManage.removeStudent(sc);
+        StudentManage.removeStudent(CampManagementApplication.sc);
         System.out.println("\n수강생 정보 삭제 종료!");
     }
 
