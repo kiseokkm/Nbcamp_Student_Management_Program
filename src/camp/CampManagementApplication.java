@@ -331,12 +331,15 @@ public class CampManagementApplication {
             return;
         }
 
+        // 입력받은 과목 Name 으로 과목 Type 반환
+        String subjectType = Subject.subjectNameToType(subjectName);
+
         // 특정 과목의 회차별 등급 조회 구현
         List<Score> scores = student.getScoresBySubjectId(subjectId);
         System.out.println(student.getStudentName() + " 학생의 [" + student.findSubjectBySubjectId(subjectId).getSubjectName() +"] 과목의 회차별 등급");
         for (Score score : scores) {
-            if (score.getTestCnt() == selectedTestCnt) {
-                System.out.println(score.getTestCnt() + " 회차 => 등급: " + score.getScore());
+            if (score.getTestCnt() == selectedTestCnt && subjectType!= null) {
+                System.out.println(score.getTestCnt() + " 회차 => 등급: " + score.calculationGrade(subjectType,score.getScore()));
                 return;
             } else {
                 System.out.println("해당 회차에 대한 점수는 등록되어있지 않습니다");
