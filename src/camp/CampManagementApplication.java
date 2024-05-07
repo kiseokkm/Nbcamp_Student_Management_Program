@@ -3,11 +3,10 @@ package camp;
 import camp.model.Score;
 import camp.model.Student;
 import camp.model.Subject;
+import jdk.jshell.Snippet;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Scanner;
+import javax.xml.transform.Result;
+import java.util.*;
 
 /**
  * Notification
@@ -161,7 +160,17 @@ public class CampManagementApplication {
                 }
             }
         }
-    }
+            String input2 = sc.next();
+
+            switch (input2) {
+                case Green: -> "수강생 이름, 필수과목 평균등급"
+                case Red:
+                case Yellow
+                default -> {
+                    System.out.println("잘못된 입력입니다.\n메인 화면 이동...");
+                }
+            }
+        }
 
     // 수강생 등록
     private static void createStudent() {

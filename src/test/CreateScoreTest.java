@@ -62,8 +62,8 @@ public class CreateScoreTest {
         );
 
         // 학생 추가
-        StudentManage.stu_list.put("ST01", new Student("ST01", "name1", subjectList));
-        StudentManage.stu_list.put("ST02", new Student("ST02", "name2", subjectList));
+        StudentManage.stu_list.put("ST01", new Student("ST01", "name1", subjectList,"Green"));
+        StudentManage.stu_list.put("ST02", new Student("ST02", "name2", subjectList, "Green"));
     }
 
     public static void initScoreData(Student student){
