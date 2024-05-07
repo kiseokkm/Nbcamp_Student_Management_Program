@@ -7,9 +7,6 @@ public class Student {
     private String studentName;
     // 수강 신청 과목 저장 리스트
     private List<Subject> subjectList;
-    // 점수 저장 리스트
-//    private List<Score> scoreList = new ArrayList<>();
-
     // 점수 저장 리스트 key: 수강 신청 과목, value: 점수
     private Map<String, List<Score>> scoreMap = new HashMap<>();
     private String status;
@@ -159,9 +156,9 @@ public class Student {
                 double sum = scores.stream()
                         .mapToInt(Score::getScore)
                         .sum();
-                // TODO 평균등급 구하는 메서드 추가 시 추가 예정
-                System.out.printf("%s의 과목의 평균 점수는 %f이고, 평균 등급은 입니다.\n",
-                        subject.getSubjectName(), sum / scores.size());
+                double avg = sum / scores.size();
+                System.out.printf("%s의 과목의 평균 점수는 %f이고, 평균 등급은 %s입니다.\n",
+                        subject.getSubjectName(), avg, Score.calculationGrade(subject.getSubjectType(), (int) avg));
             }
         }
     }
