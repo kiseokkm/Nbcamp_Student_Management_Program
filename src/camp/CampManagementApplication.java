@@ -367,28 +367,33 @@ public class CampManagementApplication {
         // 해당 학생이 가지고 있는 과목 출력
         student.printSubjectList();
 
-        System.out.println("조회할 과목을 입력하세요(ex: Java, 객체지향, Spring ...): ");
-        String subjectName = sc.next();
-        System.out.println("조회할 회차를 입력하세요: ");
-        int selectedTestCnt = sc.nextInt();
-
-        // 입력받은 과목 Name 으로 과목 ID 반환
-        String subjectId = Student.findSubjectIdBySubjectName(student, subjectName);
-        if (subjectId == null) {
-            System.out.println("해당 과목은 수강생의 과목 목록에 없습니다.");
+        System.out.println("조회할 과목의 번호를 입력하세요: ");
+        int subjectIndex = sc.nextInt();
+        // 입력받은 과목 Index로 과목 ID 반환
+        Subject subject = student.getSubjectByIndex(subjectIndex);
+        if (subject == null) {
+            System.out.println("해당 번호에 해당하는 과목을 찾을 수 없습니다.");
             return;
         }
 
-        // 입력받은 과목 Name 으로 과목 Type 반환
-        String subjectType = Subject.subjectNameToType(subjectName);
+        System.out.println("조회할 회차를 입력하세요: ");
+        int selectedTestCnt = sc.nextInt();
+        // 입력한 회차 점수 등록 여부 확인
+        if (!student.hasScoreTestCnt(subject.getSubjectId(), selectedTestCnt)) {
+            System.out.println("해당 회차는 존재하지 않습니다");
+            return;
+        }
+
+        // 입력받은 과목 Type 반환
+        String subjectType = subject.getSubjectType();
 
         // 특정 과목의 회차별 등급 조회 구현
-        List<Score> scores = student.getScoresBySubjectId(subjectId);
-        System.out.println(student.getStudentName() + " 학생의 [" + student.findSubjectBySubjectId(subjectId).getSubjectName() +"] 과목의 회차별 등급");
+        List<Score> scores = student.getScoresBySubjectId(subject.getSubjectId());
+        System.out.println(student.getStudentName() + " 학생의 [" + subject.getSubjectName() +"] 과목의 회차별 등급");
         for (Score score : scores) {
             if (score.getTestCnt() == selectedTestCnt && subjectType!= null) {
-            System.out.println(score.getTestCnt() + " 회차 => 등급: " + score.getGrade());
-            return;
+                System.out.println(score.getTestCnt() + " 회차 => 등급: " + score.getGrade());
+                return;
             }
         }
     }
