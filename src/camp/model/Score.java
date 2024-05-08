@@ -99,6 +99,7 @@ public class Score {
 
     public void setScore(int newScore) {
         this.score = newScore;
+        this.grade = calculationGrade(this.subject.getSubjectType(), newScore);
     }
 
 }

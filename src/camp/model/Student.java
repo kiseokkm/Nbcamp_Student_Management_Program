@@ -38,6 +38,8 @@ public class Student {
 
     public String getStatus() {return status; }
 
+    public void setStatus(String status) {this.status = status;}
+
     /**
      * index로 강의 정보를 찾는다.
      * @param index 입력 index
@@ -169,21 +171,19 @@ public class Student {
         this.studentName = name;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
-    }
     public void updateScore(String subjectId, int testCnt, int newScore) {
         List<Score> scores = scoreMap.get(subjectId);
         if (scores != null) {
             for (Score score : scores) {
                 if (score.getTestCnt() == testCnt) {
                     score.setScore(newScore);
-                    System.out.println("점수가 업데이트 되었습니다.");
+                    System.out.println("점수와 등급이 업데이트 되었습니다.");
                     return;
                 }
             }
         }
         System.out.println("해당 회차의 점수를 찾을 수 없습니다.");
     }
+
 
 }
