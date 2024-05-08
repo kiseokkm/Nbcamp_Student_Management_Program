@@ -1,5 +1,13 @@
 package camp.model;
 
+import camp.StudentManage;
+import camp.SubjectList;
+import com.sun.jdi.Value;
+import com.sun.source.tree.ContinueTree;
+import jdk.incubator.vector.VectorOperators;
+import jdk.jshell.Snippet;
+
+import javax.crypto.KeyAgreement;
 import javax.naming.Name;
 import java.beans.JavaBean;
 import java.util.*;
@@ -21,20 +29,53 @@ public class Student {
         this.status = status;
     }
 
-    public Integer getMyAverageScore() {
-        List<Subject> subjects = List.of();
+    public double getMyAverageScore() {
 
-        Map<String, List<Score>> subjectScoreList = Map.of();
+        // 1. 특정 상태 수강생 확인
+        if (status != "green" && status != "red" && status != "yellow") {
+            System.out.println("수강생의 상태를 입력해주세요.");
+        }
+        // 2. 과목 데이터를 먼저 가져와야한다.? 필수 과목인지 확인
+        for (Subject subject : subjectList) {
+            // 2-1. 과목 id 가져와서, scoreMap의 key로 접근
+            String key = subject.getSubjectId();
+            List<Score> scores = scoreMap.get(key);
 
-        for(Subject subject : subjects) {
 
+            // 2.2 점수들 score를 가져와서 모두 더한 후 평균 점수 계산
+            if (subjectList.equals(Subject.SUBJECT_TYPE_MANDATORY)) {
+
+                double result = 0;
+                double sum = 0;
+
+                for (int i = 0; i < scores.size(); i++) {
+                    sum += i;
+                    result = sum / 3;
+
+                    if (result >= 285) {
+                        return A;
+
+                    } else if (result >= 270) {
+                        return B;
+
+                    } else if (result >= 240) {
+                        return C;
+
+                    } else if (result >= 210) {
+                        return D;
+
+                    } else if (result >= 180) {
+                        return F;
+
+                    } else
+                        return N;
+                }
+            }
         }
     }
 
     // Getter
-    public String getStudentId() {
-        return studentId;
-    }
+    public String getStudentId() {return studentId; }
 
     public String getStudentName() {
         return studentName;
