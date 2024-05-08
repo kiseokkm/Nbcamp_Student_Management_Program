@@ -12,25 +12,16 @@ public class Score {
     // 점수
     private int score;
 
-    public Score(String seq) {
-        this.scoreId = seq;
-    }
-
     public Score(String seq, int testCnt, String studentId, Subject subject, int score) {
         this.scoreId = seq;
         this.testCnt = testCnt;
         this.studentId = studentId;
         this.subject = subject;
         this.score = score;
-        // TODO grade 계산
-        // this.grade =
+        this.grade = calculationGrade(subject.getSubjectType(), score);
     }
 
     // Getter
-    public String getScoreId() {
-        return scoreId;
-    }
-
     public int getScore() {
         return score;
     }
@@ -43,8 +34,8 @@ public class Score {
         return testCnt;
     }
 
-    public String getStudentId() {
-        return studentId;
+    public String getGrade() {
+        return grade;
     }
 
     // TODO input회차 validation
@@ -69,7 +60,8 @@ public class Score {
     }
 
     // TODO 등급 계산
-    public String calculationGrade(String subjectType, int score) {
+    public static String calculationGrade(String subjectType, int score) {
+        String grade = "";
         switch (subjectType) {
             case "MANDATORY":
                 if (score >= 95) {
@@ -107,6 +99,7 @@ public class Score {
 
     public void setScore(int newScore) {
         this.score = newScore;
+        this.grade = calculationGrade(this.subject.getSubjectType(), newScore);
     }
 
 }
