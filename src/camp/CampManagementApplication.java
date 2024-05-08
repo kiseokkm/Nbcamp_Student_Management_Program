@@ -23,11 +23,11 @@ public class CampManagementApplication {
 
     // index 관리 필드
     private static int studentIndex;
-    private static final String INDEX_TYPE_STUDENT = "ST";
+    private static final String INDEX_TYPE_STUDENT = "st";
     private static int subjectIndex;
-    private static final String INDEX_TYPE_SUBJECT = "SU";
+    private static final String INDEX_TYPE_SUBJECT = "su";
     private static int scoreIndex;
-    private static final String INDEX_TYPE_SCORE = "SC";
+    private static final String INDEX_TYPE_SCORE = "sc";
 
     // 스캐너
     private static Scanner sc = new Scanner(System.in);
@@ -158,29 +158,23 @@ public class CampManagementApplication {
                     case 1 -> createStudent(sc); // 수강생 등록
                     case 2 -> inquireStudent(); // 수강생 목록 조회
                     case 3 -> inquireSpecificStudent(sc); // 수강생 정보(개인) 조회
-                    case 4 -> modifyStudent(sc);
-                    case 5 -> removeStudent(sc);
+                    case 4 -> modifyStudent(sc); // 수강생 정보 수정
+                    case 5 -> removeStudent(sc); // 수강생 정보 삭제
                     case 6 -> flag = false; // 메인 화면 이동
                     default -> System.out.println("잘못된 입력입니다. 다시 선택해주세요.");
                 }
             } catch(InputMismatchException e) {
                 System.out.println("잘못된 입력입니다. 숫자를 입력해주세요.");
-                sc.next(); // 잘못된 입력을 넘기고 다음 입력을 기다립니다.
+                sc.next(); 
             }
         }
     }
-
-
+    
     // 수강생 등록
     private static void createStudent(Scanner sc) {
-//        System.out.println("\n수강생을 등록합니다...");
-//        System.out.print("수강생 이름 입력: ");
-//        String studentName = sc.next();
         // 기능 구현 (필수 과목, 선택 과목)
         StudentManage.createStudent(CampManagementApplication.sc);
-
-//      Student student = new Student(sequence(INDEX_TYPE_STUDENT), studentName); // 수강생 인스턴스 생성 예시 코드
-
+        
         System.out.println("수강생 등록 성공!\n");
     }
     // 수강생 목록 조회
@@ -226,8 +220,8 @@ public class CampManagementApplication {
                 case 1 -> createScore(); // 수강생의 과목별 시험 회차 및 점수 등록
                 case 2 -> updateRoundScoreBySubject(); // 수강생의 과목별 회차 점수 수정
                 case 3 -> inquireRoundGradeBySubject(); // 수강생의 특정 과목 회차별 등급 조회
-                case 4 -> inquiryAverageGradeBySubject(); // 메인 화면 이동
-                case 5 -> flag = false; // 메인 화면 이동
+                case 4 -> inquiryAverageGradeBySubject(); // 수강생의 과목별 평균 등급 조회
+                case 5 -> flag = false; // 아직 미구현
                 case 6 -> flag = false; // 메인 화면 이동
                 default -> {
                     System.out.println("잘못된 입력입니다.\n메인 화면 이동...");
@@ -299,11 +293,67 @@ public class CampManagementApplication {
 
     // 수강생의 과목별 회차 점수 수정
     private static void updateRoundScoreBySubject() {
-        String studentId = getStudentId(); // 관리할 수강생 고유 번호
-        // 기능 구현 (수정할 과목 및 회차, 점수)
         System.out.println("시험 점수를 수정합니다...");
-        // 기능 구현
-        System.out.println("\n점수 수정 성공!");
+        System.out.println("관리할 수강생의 번호를 입력하시오...");
+        
+        String studentId = sc.nextLine().trim();
+
+        if (!StudentManage.containsStudentKey(studentId)) {
+            System.out.println("해당하는 학생이 없습니다.");
+            return;
+        }
+
+        Student student = StudentManage.getStudentByStudentId(studentId);
+        student.printSubjectList();
+
+        System.out.print("수정할 과목의 번호를 입력하세요: ");
+        int subjectIndex;
+        try {
+            subjectIndex = Integer.parseInt(sc.nextLine().trim());
+        } catch (NumberFormatException e) {
+            System.out.println("잘못된 입력입니다. 숫자를 입력해야 합니다.");
+            return;
+        }
+
+        Subject subject = student.getSubjectByIndex(subjectIndex - 1);
+        if (subject == null) {
+            System.out.println("잘못된 과목 번호입니다.");
+            return;
+        }
+
+        System.out.print("수정할 회차를 입력하세요. (1~10): ");
+        int testCnt;
+        try {
+            testCnt = Integer.parseInt(sc.nextLine().trim());
+            if (!Score.validationTestCnt(testCnt)) {
+                System.out.println("유효하지 않은 회차입니다.");
+                return;
+            }
+        } catch (NumberFormatException e) {
+            System.out.println("잘못된 입력입니다. 숫자를 입력해야 합니다.");
+            return;
+        }
+
+        if (!student.hasScoreTestCnt(subject.getSubjectId(), testCnt)) {
+            System.out.println("해당 회차의 점수가 등록되어 있지 않습니다.");
+            return;
+        }
+
+        System.out.print("새로운 점수를 입력하세요. (0~100): ");
+        int newScore;
+        try {
+            newScore = Integer.parseInt(sc.nextLine().trim());
+            if (!Score.validationScore(newScore)) {
+                System.out.println("점수는 0에서 100 사이여야 합니다.");
+                return;
+            }
+        } catch (NumberFormatException e) {
+            System.out.println("잘못된 입력입니다. 숫자를 입력해야 합니다.");
+            return;
+        }
+
+        student.updateScore(subject.getSubjectId(), testCnt, newScore);
+        System.out.println("점수 수정 성공!");
     }
 
     // 수강생의 특정 과목 회차별 등급 조회

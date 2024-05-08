@@ -38,10 +38,9 @@ public class CreateScoreTest {
 
         // test
         Map<String, List<Score>> myScores = student.getScoreMap();
-        for (int i=0; i<myScores.size(); i++) {
-            List<String> keys = myScores.keySet().stream().toList();
-            for (Score score : student.getScoreMap().get(keys.get(i))) {
-                System.out.printf("\n%s과목의 회차: %d, 점수: %d", score.getSubject().getSubjectName(), score.getTestCnt(), score.getScore());
+        for (Map.Entry<String, List<Score>> entry : myScores.entrySet()) {
+            for (Score score : entry.getValue()) {
+                System.out.printf("\n%s 과목의 회차: %d, 점수: %d", score.getSubject().getSubjectName(), score.getTestCnt(), score.getScore());
             }
         }
 

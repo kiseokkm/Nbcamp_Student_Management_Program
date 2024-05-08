@@ -13,6 +13,7 @@ public class Student {
     // 점수 저장 리스트 key: 수강 신청 과목, value: 점수
     private Map<String, List<Score>> scoreMap = new HashMap<>();
     private String status;
+    private Score[] scores;
 
     public Student(String seq, String studentName, List<Subject> list, String status) {
         this.studentId = seq;
@@ -46,10 +47,11 @@ public class Student {
      * @return 해당하는 index의 강의 정보
      */
     public Subject getSubjectByIndex(int index) {
-        if (index > subjectList.size()){
-            return null;
+        // 인덱스 값이 1 이상이고 subjectList 크기 이하인지 검증
+        if (index >= 1 && index <= subjectList.size()) {
+            return subjectList.get(index - 1); // 사용자는 1부터 시작하는 인덱스를 사용
         }
-        return subjectList.get(index-1);
+        return null; // 범위 밖의 인덱스 입력 시 null 반환
     }
 
     /**
@@ -173,4 +175,18 @@ public class Student {
     public void setStatus(String status) {
         this.status = status;
     }
+    public void updateScore(String subjectId, int testCnt, int newScore) {
+        List<Score> scores = scoreMap.get(subjectId);
+        if (scores != null) {
+            for (Score score : scores) {
+                if (score.getTestCnt() == testCnt) {
+                    score.setScore(newScore);
+                    System.out.println("점수가 업데이트 되었습니다.");
+                    return;
+                }
+            }
+        }
+        System.out.println("해당 회차의 점수를 찾을 수 없습니다.");
+    }
+
 }
