@@ -96,4 +96,9 @@ public class Score {
         }
         return grade;
     }
+
+    public void setScore(int newScore) {
+        this.score = newScore;
+    }
+
 }
