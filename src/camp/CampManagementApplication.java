@@ -3,6 +3,7 @@ package camp;
 import camp.model.Score;
 import camp.model.Student;
 import camp.model.Subject;
+import jdk.jshell.Snippet;
 
 import java.util.*;
 
@@ -167,18 +168,19 @@ public class CampManagementApplication {
                     case 7 -> flag = false; // 메인 화면 이동
                     default -> System.out.println("잘못된 입력입니다. 다시 선택해주세요.");
                 }
-            } catch(InputMismatchException e) {
+            } catch (InputMismatchException e) {
                 System.out.println("잘못된 입력입니다. 숫자를 입력해주세요.");
-                sc.next(); 
+                sc.next();
+
             }
         }
     }
-    
+
     // 수강생 등록
     private static void createStudent(Scanner sc) {
         // 기능 구현 (필수 과목, 선택 과목)
         StudentManage.createStudent(CampManagementApplication.sc);
-        
+
         System.out.println("수강생 등록 성공!\n");
     }
     // 수강생 목록 조회

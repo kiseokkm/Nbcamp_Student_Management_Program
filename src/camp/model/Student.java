@@ -19,10 +19,36 @@ public class Student {
         this.status = status;
     }
 
-    // Getter
-    public String getStudentId() {
-        return studentId;
+    public void getMyAverageScore() {
+
+        if (status != "green" && status != "red" && status != "yellow") {
+            System.out.println("수강생의 상태를 입력해주세요.");
+        }
+
+        for (Subject subject : subjectList) {
+
+            String key = subject.getSubjectId();
+            List<Score> scores = scoreMap.get(key);
+
+            if (subjectList.equals(Subject.SUBJECT_TYPE_MANDATORY)) {
+
+                int result2 = 0;
+                double result = 0;
+                double sum = 0;
+
+                for (int i = 0; i < scores.size(); i++) {
+                    sum += scores.get(i).getScore();
+                    result = sum / scores.size();
+                    result2 = (int) result;
+                }
+                Score.calculationGrade(subject.getSubjectType(), result2);
+                System.out.println("상태 : " + status + "수강생 이름 : " + studentName + "필수과목 평균등급 : " + result2);
+            }
+        }
     }
+
+    // Getter
+    public String getStudentId() {return studentId; }
 
     public String getStudentName() {
         return studentName;
@@ -184,6 +210,4 @@ public class Student {
         }
         System.out.println("해당 회차의 점수를 찾을 수 없습니다.");
     }
-
-
 }
