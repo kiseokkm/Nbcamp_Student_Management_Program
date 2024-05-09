@@ -7,8 +7,6 @@ import jdk.jshell.Snippet;
 
 import java.util.*;
 
-import static camp.StudentManage.getStatusStudents;
-
 /**
  * Notification
  * Java, 객체지향이 아직 익숙하지 않은 분들은 위한 소스코드 틀입니다.
@@ -212,7 +210,7 @@ public class CampManagementApplication {
     private static void inquireStatusListBySubject(Scanner sc) {
         System.out.println("조회할 상태를 입력해주세요(green, yellow, red): ");
         String statusSubject = sc.next();
-        getStatusStudents(statusSubject);
+        StudentManage.inquiryStatusStudents(statusSubject);
         System.out.println("[" + statusSubject + "] 상태인 수강생 조회 완료.");
     }
 

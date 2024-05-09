@@ -135,12 +135,21 @@ public class StudentManage {
         return stu_list.containsKey(studentId);
     }
 
-    //  특성 상태를 가진 학생들 리스트 반환
-    public static void getStatusStudents(String status) {
+    public static void inquiryStatusStudents(String status) {
         for (Student student : stu_list.values()) {
             if (student.getStatus().equalsIgnoreCase(status)) {
                 System.out.println("ID: " + student.getStudentId()+ "  이름: " + student.getStudentName());
             }
         }
+    }
+ //바구니를 가지고 있다 다른 곳에 줄 바구니 사과를 담아서 황금사과만 가져와서 다른사람한테 줄거다
+    public static List<Student> getStatusStudents(String status) {
+        List<Student> result = new ArrayList<>();
+        for (Student student : stu_list.values()) {
+            if (student.getStatus().equalsIgnoreCase(status)) {
+                result.add(student);
+            }
+        }
+        return result;
     }
 }

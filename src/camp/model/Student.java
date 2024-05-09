@@ -10,7 +10,6 @@ public class Student {
     // 점수 저장 리스트 key: 수강 신청 과목, value: 점수
     private Map<String, List<Score>> scoreMap = new HashMap<>();
     private String status;
-    private Score[] scores;
 
     public Student(String seq, String studentName, List<Subject> list, String status) {
         this.studentId = seq;
@@ -22,23 +21,21 @@ public class Student {
 
     public void getMyAverageScore() {
         for (Subject subject : subjectList) {
-
             String key = subject.getSubjectId();
             List<Score> scores = scoreMap.get(key);
-
-            if (subjectList.equals(Subject.SUBJECT_TYPE_MANDATORY)) {
-
-                int result2 = 0;
-                double result = 0;
+            if (scores == null){
+                continue;
+            }
+            double result = 0;
+            if (Objects.equals(Subject.SUBJECT_TYPE_MANDATORY, subject.getSubjectType())) {
                 double sum = 0;
-
-                for (int i = 0; i < scores.size(); i++) {
-                    sum += scores.get(i).getScore();
+                for (Score score : scores) {
+                    sum += score.getScore();
                     result = sum / scores.size();
-                    result2 = (int) result;
                 }
-                Score.calculationGrade(subject.getSubjectType(), result2);
-                System.out.println("상태 : " + status + "수강생 이름 : " + studentName + "필수과목 평균등급 : " + result2);
+                String myGrade = Score.calculationGrade(subject.getSubjectType(), (int) result);
+                System.out.println("현재 과목" + subject.getSubjectName());
+                System.out.println("상태 : " + status + "수강생 이름 : " + studentName + "평균 점수:" + result + "필수과목 평균등급 : " + myGrade);
             }
         }
     }
