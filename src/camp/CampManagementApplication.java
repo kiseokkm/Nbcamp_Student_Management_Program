@@ -355,6 +355,7 @@ public class CampManagementApplication {
     }
 
     // 수강생의 특정 과목 회차별 등급 조회
+
     private static void inquireRoundGradeBySubject() {
         String studentId = getStudentId(); // 관리할 수강생 고유 번호
         // 입력한 학생이 존재하지 않을 경우 종료
@@ -365,8 +366,9 @@ public class CampManagementApplication {
         }
 
         // 해당 학생이 가지고 있는 과목 출력
-        student.printSubjectList();
 
+        student.printSubjectList();
+        
         System.out.println("조회할 과목의 번호를 입력하세요: ");
         int subjectIndex = sc.nextInt();
         // 입력받은 과목 Index로 과목 ID 반환
@@ -408,6 +410,7 @@ public class CampManagementApplication {
     }
     // 특정상태 수강생의 이름, 특정과목평균등급 조회.
     public static void specificStatusStudent() {
+        System.out.println("조회할 상태를 입력해주세요(green, yellow, red): ");
         String input2 = sc.next();
         List<Student> students = StudentManage.getStatusStudents(input2);
 
