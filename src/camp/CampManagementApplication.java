@@ -7,8 +7,6 @@ import jdk.jshell.Snippet;
 
 import java.util.*;
 
-import static camp.StudentManage.getStatusStudents;
-
 /**
  * Notification
  * Java, 객체지향이 아직 익숙하지 않은 분들은 위한 소스코드 틀입니다.
@@ -212,7 +210,7 @@ public class CampManagementApplication {
     private static void inquireStatusListBySubject(Scanner sc) {
         System.out.println("조회할 상태를 입력해주세요(green, yellow, red): ");
         String statusSubject = sc.next();
-        getStatusStudents(statusSubject);
+        StudentManage.inquiryStatusStudents(statusSubject);
         System.out.println("[" + statusSubject + "] 상태인 수강생 조회 완료.");
     }
 
@@ -235,7 +233,7 @@ public class CampManagementApplication {
                 case 2 -> updateRoundScoreBySubject(); // 수강생의 과목별 회차 점수 수정
                 case 3 -> inquireRoundGradeBySubject(); // 수강생의 특정 과목 회차별 등급 조회
                 case 4 -> inquiryAverageGradeBySubject(); // 수강생의 과목별 평균 등급 조회
-                case 5 -> flag = false; // 아직 미구현
+                case 5 -> specificStatusStudent(); // 특정 상태 수강생들의 필수 과목 평균 등급 조회
                 case 6 -> flag = false; // 메인 화면 이동
                 default -> {
                     System.out.println("잘못된 입력입니다.\n메인 화면 이동...");
@@ -407,5 +405,21 @@ public class CampManagementApplication {
         Student student = StudentManage.getStudentByStudentId(studentId);
         student.inquiryAverageGradeBySubject();
         System.out.println("\n평균 등급 조회 성공!");
+    }
+    // 특정상태 수강생의 이름, 특정과목평균등급 조회.
+    public static void specificStatusStudent() {
+        String input2 = sc.next();
+        List<Student> students = StudentManage.getStatusStudents(input2);
+
+        if (!(input2.equalsIgnoreCase("green")
+                || input2.equalsIgnoreCase("yellow")
+                ||input2.equalsIgnoreCase("red"))) {
+            System.out.println("잘못된 상태입니다. 다시 입력하세요.");
+            return;
+        }
+
+        for(Student student : students) {
+            student.getMyAverageScore();
+        }
     }
 }

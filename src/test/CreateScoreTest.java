@@ -36,17 +36,19 @@ public class CreateScoreTest {
 //            CampManagementApplication.createScore();
 //        }
 
-        // test
-        Map<String, List<Score>> myScores = student.getScoreMap();
-        for (Map.Entry<String, List<Score>> entry : myScores.entrySet()) {
-            for (Score score : entry.getValue()) {
-                System.out.printf("\n%s 과목의 회차: %d, 점수: %d", score.getSubject().getSubjectName(), score.getTestCnt(), score.getScore());
-            }
-        }
+        CampManagementApplication.specificStatusStudent();
 
-        System.out.println();
-        // 과목별 평균 등급 조회 테스트
-        CampManagementApplication.inquiryAverageGradeBySubject();
+        // test
+//        Map<String, List<Score>> myScores = student.getScoreMap();
+//        for (Map.Entry<String, List<Score>> entry : myScores.entrySet()) {
+//            for (Score score : entry.getValue()) {
+//                System.out.printf("\n%s 과목의 회차: %d, 점수: %d", score.getSubject().getSubjectName(), score.getTestCnt(), score.getScore());
+//            }
+//        }
+//
+//        System.out.println();
+//        // 과목별 평균 등급 조회 테스트
+//        CampManagementApplication.inquiryAverageGradeBySubject();
     }
 
     public static void initData(){
@@ -62,12 +64,12 @@ public class CreateScoreTest {
 
         // 학생 추가 ( 상태추가 )
         StudentManage.stu_list.put("ST01", new Student("ST01", "name1", subjectList, "Green"));
-        StudentManage.stu_list.put("ST02", new Student("ST02", "name1", subjectList, "Green"));
+        StudentManage.stu_list.put("ST02", new Student("ST02", "name2", subjectList, "Green"));
     }
 
     public static void initScoreData(Student student){
         Subject subject = new Subject("SU01", SubjectList.MYSQL.name, SubjectList.MYSQL.type);
-        Subject subject2 = new Subject("SU02", SubjectList.MONGODB.name, SubjectList.MONGODB.type);
+        Subject subject2 = new Subject("SU05", SubjectList.SPRING.name, SubjectList.SPRING.type);
 
         // 학생 1
         // 과목 1
@@ -90,19 +92,19 @@ public class CreateScoreTest {
 
         // 과목2
         student.saveScore(
-                new Score("SO" + index++, 1,student.getStudentId(), subject2, 20)
+                new Score("SO" + index++, 1,student.getStudentId(), subject2, 95)
         );
         student.saveScore(
-                new Score("SO" + index++, 2,student.getStudentId(), subject2, 50)
+                new Score("SO" + index++, 2,student.getStudentId(), subject2, 95)
         );
         student.saveScore(
-                new Score("SO" + index++, 3,student.getStudentId(), subject2, 70)
+                new Score("SO" + index++, 3,student.getStudentId(), subject2, 95)
         );
         student.saveScore(
-                new Score("SO" + index++, 4,student.getStudentId(), subject2, 80)
+                new Score("SO" + index++, 4,student.getStudentId(), subject2, 95)
         );
         student.saveScore(
-                new Score("SO" + index++, 5,student.getStudentId(), subject2, 90)
+                new Score("SO" + index++, 5,student.getStudentId(), subject2, 95)
         );
     }
 }
