@@ -1,16 +1,5 @@
 package camp.model;
 
-import camp.StudentManage;
-import camp.SubjectList;
-import com.sun.jdi.Value;
-import com.sun.source.tree.ContinueTree;
-import jdk.incubator.vector.VectorOperators;
-import jdk.jshell.Snippet;
-
-import javax.crypto.KeyAgreement;
-import javax.naming.Name;
-import javax.xml.transform.Result;
-import java.beans.JavaBean;
 import java.util.*;
 
 public class Student {
@@ -57,7 +46,6 @@ public class Student {
             }
         }
     }
-
 
     // Getter
     public String getStudentId() {return studentId; }
@@ -222,6 +210,4 @@ public class Student {
         }
         System.out.println("해당 회차의 점수를 찾을 수 없습니다.");
     }
-
-
 }
