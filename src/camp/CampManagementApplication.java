@@ -163,22 +163,13 @@ public class CampManagementApplication {
                     case 6 -> flag = false; // 메인 화면 이동
                     default -> System.out.println("잘못된 입력입니다. 다시 선택해주세요.");
                 }
-            } catch(InputMismatchException e) {
+            } catch (InputMismatchException e) {
                 System.out.println("잘못된 입력입니다. 숫자를 입력해주세요.");
                 sc.next();
+
             }
         }
-            String input2 = sc.next();
-
-            switch (input2) {
-        case green: -> "수강생 이름, 필수과목 평균등급"
-        case red:
-        case yellow
-            default -> {
-                System.out.println("잘못된 입력입니다.\n메인 화면 이동...");
-            }
     }
-}
 
     // 수강생 등록
     private static void createStudent(Scanner sc) {

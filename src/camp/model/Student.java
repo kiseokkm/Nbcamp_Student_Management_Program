@@ -9,6 +9,7 @@ import jdk.jshell.Snippet;
 
 import javax.crypto.KeyAgreement;
 import javax.naming.Name;
+import javax.xml.transform.Result;
 import java.beans.JavaBean;
 import java.util.*;
 
@@ -29,50 +30,34 @@ public class Student {
         this.status = status;
     }
 
-    public double getMyAverageScore() {
+    public void getMyAverageScore() {
 
-        // 1. 특정 상태 수강생 확인
         if (status != "green" && status != "red" && status != "yellow") {
             System.out.println("수강생의 상태를 입력해주세요.");
         }
-        // 2. 과목 데이터를 먼저 가져와야한다.? 필수 과목인지 확인
+
         for (Subject subject : subjectList) {
-            // 2-1. 과목 id 가져와서, scoreMap의 key로 접근
+
             String key = subject.getSubjectId();
             List<Score> scores = scoreMap.get(key);
 
-
-            // 2.2 점수들 score를 가져와서 모두 더한 후 평균 점수 계산
             if (subjectList.equals(Subject.SUBJECT_TYPE_MANDATORY)) {
 
+                int result2 = 0;
                 double result = 0;
                 double sum = 0;
 
                 for (int i = 0; i < scores.size(); i++) {
-                    sum += i;
-                    result = sum / 3;
-
-                    if (result >= 285) {
-                        return A;
-
-                    } else if (result >= 270) {
-                        return B;
-
-                    } else if (result >= 240) {
-                        return C;
-
-                    } else if (result >= 210) {
-                        return D;
-
-                    } else if (result >= 180) {
-                        return F;
-
-                    } else
-                        return N;
+                    sum += scores.get(i).getScore();
+                    result = sum / scores.size();
+                    result2 = (int) result;
                 }
+                Score.calculationGrade(subject.getSubjectType(), result2);
+                System.out.println("상태 : " + status + "수강생 이름 : " + studentName + "필수과목 평균등급 : " + result2);
             }
         }
     }
+
 
     // Getter
     public String getStudentId() {return studentId; }
