@@ -6,6 +6,8 @@ import camp.model.Subject;
 
 import java.util.*;
 
+import static camp.StudentManage.getStatusStudents;
+
 /**
  * Notification
  * Java, 객체지향이 아직 익숙하지 않은 분들은 위한 소스코드 틀입니다.
@@ -147,20 +149,22 @@ public class CampManagementApplication {
                 System.out.println("수강생 관리 실행 중...");
                 System.out.println("1. 수강생 등록");
                 System.out.println("2. 수강생 목록 조회");
-                System.out.println("3. 수강생 정보(개인) 조회");
-                System.out.println("4. 수강생 정보 수정");
-                System.out.println("5. 수강생 정보 삭제");
-                System.out.println("6. 메인 화면 이동");
+                System.out.println("3. 수강생 상태별 목록 조회");
+                System.out.println("4. 수강생 정보(개인) 조회");
+                System.out.println("5. 수강생 정보 수정");
+                System.out.println("6. 수강생 정보 삭제");
+                System.out.println("7. 메인 화면 이동");
                 System.out.print("관리 항목을 선택하세요...");
                 int input = sc.nextInt();
 
                 switch (input) {
                     case 1 -> createStudent(sc); // 수강생 등록
                     case 2 -> inquireStudent(); // 수강생 목록 조회
-                    case 3 -> inquireSpecificStudent(sc); // 수강생 정보(개인) 조회
-                    case 4 -> modifyStudent(sc); // 수강생 정보 수정
-                    case 5 -> removeStudent(sc); // 수강생 정보 삭제
-                    case 6 -> flag = false; // 메인 화면 이동
+                    case 3 -> inquireStatusListBySubject(sc);  // 수강생 상태별 목록 조회
+                    case 4 -> inquireSpecificStudent(sc); // 수강생 정보(개인) 조회
+                    case 5 -> modifyStudent(sc); // 수강생 정보 수정
+                    case 6 -> removeStudent(sc); // 수강생 정보 삭제
+                    case 7 -> flag = false; // 메인 화면 이동
                     default -> System.out.println("잘못된 입력입니다. 다시 선택해주세요.");
                 }
             } catch (InputMismatchException e) {
@@ -201,6 +205,14 @@ public class CampManagementApplication {
         System.out.println("\n수강생 정보를 삭제합니다...");
         StudentManage.removeStudent(CampManagementApplication.sc);
         System.out.println("\n수강생 정보 삭제 종료!");
+    }
+
+    // 수강생 상태별 목록 조회
+    private static void inquireStatusListBySubject(Scanner sc) {
+        System.out.println("조회할 상태를 입력해주세요(green, yellow, red): ");
+        String statusSubject = sc.next();
+        getStatusStudents(statusSubject);
+        System.out.println("[" + statusSubject + "] 상태인 수강생 조회 완료.");
     }
 
     private static void displayScoreView() {
@@ -356,30 +368,33 @@ public class CampManagementApplication {
         // 해당 학생이 가지고 있는 과목 출력
         student.printSubjectList();
 
-        System.out.println("조회할 과목을 입력하세요(ex: Java, 객체지향, Spring ...): ");
-        String subjectName = sc.next();
-        System.out.println("조회할 회차를 입력하세요: ");
-        int selectedTestCnt = sc.nextInt();
-
-        // 입력받은 과목 Name 으로 과목 ID 반환
-        String subjectId = Student.findSubjectIdBySubjectName(student, subjectName);
-        if (subjectId == null) {
-            System.out.println("해당 과목은 수강생의 과목 목록에 없습니다.");
+        System.out.println("조회할 과목의 번호를 입력하세요: ");
+        int subjectIndex = sc.nextInt();
+        // 입력받은 과목 Index로 과목 ID 반환
+        Subject subject = student.getSubjectByIndex(subjectIndex);
+        if (subject == null) {
+            System.out.println("해당 번호에 해당하는 과목을 찾을 수 없습니다.");
             return;
         }
 
-        // 입력받은 과목 Name 으로 과목 Type 반환
-        String subjectType = Subject.subjectNameToType(subjectName);
+        System.out.println("조회할 회차를 입력하세요: ");
+        int selectedTestCnt = sc.nextInt();
+        // 입력한 회차 점수 등록 여부 확인
+        if (!student.hasScoreTestCnt(subject.getSubjectId(), selectedTestCnt)) {
+            System.out.println("해당 회차는 존재하지 않습니다");
+            return;
+        }
+
+        // 입력받은 과목 Type 반환
+        String subjectType = subject.getSubjectType();
 
         // 특정 과목의 회차별 등급 조회 구현
-        List<Score> scores = student.getScoresBySubjectId(subjectId);
-        System.out.println(student.getStudentName() + " 학생의 [" + student.findSubjectBySubjectId(subjectId).getSubjectName() +"] 과목의 회차별 등급");
+        List<Score> scores = student.getScoresBySubjectId(subject.getSubjectId());
+        System.out.println(student.getStudentName() + " 학생의 [" + subject.getSubjectName() +"] 과목의 회차별 등급");
         for (Score score : scores) {
             if (score.getTestCnt() == selectedTestCnt && subjectType!= null) {
                 System.out.println(score.getTestCnt() + " 회차 => 등급: " + score.getGrade());
                 return;
-            } else {
-                System.out.println("해당 회차에 대한 점수는 등록되어있지 않습니다");
             }
         }
     }

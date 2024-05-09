@@ -134,4 +134,13 @@ public class StudentManage {
     public static boolean containsStudentKey(String studentId) {
         return stu_list.containsKey(studentId);
     }
+
+    //  특성 상태를 가진 학생들 리스트 반환
+    public static void getStatusStudents(String status) {
+        for (Student student : stu_list.values()) {
+            if (student.getStatus().equalsIgnoreCase(status)) {
+                System.out.println("ID: " + student.getStudentId()+ "  이름: " + student.getStudentName());
+            }
+        }
+    }
 }
