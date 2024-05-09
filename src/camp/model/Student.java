@@ -19,12 +19,8 @@ public class Student {
         this.status = status;
     }
 
+
     public void getMyAverageScore() {
-
-        if (status != "green" && status != "red" && status != "yellow") {
-            System.out.println("수강생의 상태를 입력해주세요.");
-        }
-
         for (Subject subject : subjectList) {
 
             String key = subject.getSubjectId();
